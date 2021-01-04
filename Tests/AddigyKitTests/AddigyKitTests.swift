@@ -39,8 +39,8 @@ final class AddigyKitTests: XCTestCase {
         client.validate()
             .sink(
                 receiveCompletion: { _ in },
-                receiveValue: { value in
-                    XCTAssertEqual(value, "test-org-id")
+                receiveValue: { token in
+                    XCTAssertEqual(token.orgID, "test-org-id")
                     expectation.fulfill()
                 }
             )

@@ -19,15 +19,7 @@ public class Addigy {
         self.session = session
     }
     
-    public func validate() -> AnyPublisher<String, Error> {
-        struct ValidateResponse: Decodable {
-            let OrgID: String
-            
-            enum CodingKeys: String, CodingKey {
-                case OrgID = "orgid"
-            }
-        }
-        
+    public func validate() -> AnyPublisher<Token, Error> {
         var request = URLRequest(url: URL(string: "https://\(realm).addigy.com/api/validate")!)
         request.httpMethod = "POST"
         request.addValue(clientID, forHTTPHeaderField: "client-id")
@@ -45,8 +37,7 @@ public class Addigy {
                 
                 return element.data
             }
-            .decode(type: ValidateResponse.self, decoder: JSONDecoder())
-            .map(\.OrgID)
+            .decode(type: Token.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
@@ -94,5 +85,5 @@ public class Addigy {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
-    
+
 }
