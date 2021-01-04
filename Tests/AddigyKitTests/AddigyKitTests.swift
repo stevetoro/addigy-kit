@@ -1,15 +1,23 @@
 import XCTest
+
 @testable import AddigyKit
 
 final class AddigyKitTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(AddigyKit().text, "Hello, World!")
+    
+    func testInitializer() {
+        var client = Addigy(clientID: "test-client-id", clientSecret: "test-client-secret")
+        XCTAssertEqual(client.clientID, "test-client-id")
+        XCTAssertEqual(client.clientSecret, "test-client-secret")
+        XCTAssertEqual(client.realm, "prod")
+        XCTAssertEqual(client.session, .shared)
+        
+        let session = URLSession(configuration: .ephemeral)
+        client = Addigy(clientID: "test-client-id", clientSecret: "test-client-secret", realm: "dev", session: session)
+        XCTAssertEqual(client.realm, "dev")
+        XCTAssertEqual(client.session, session)
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testInitializer", testInitializer)
     ]
 }
