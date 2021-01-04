@@ -101,10 +101,53 @@ final class AddigyKitTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1)
     }
+    
+    func testGetOnlineDevices() {
+        let url = URL(string: "https://prod.addigy.com/api/devices/online")
+        let data = DeviceDataFixture.getOnlineDevices
+        URLProtocolStub.testURLs = [url: data]
+        
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        
+        let session = URLSession(configuration: config)
+        
+        let client = Addigy(
+            clientID: "test-client-id",
+            clientSecret: "test-client-secret",
+            session: session
+        )
+        
+        let expectation = XCTestExpectation(description: "getOnlineDevices")
+        client.getOnlineDevices()
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { devices in
+                    XCTAssertEqual(devices.count, 1)
+                    
+                    let device = devices[0]
+                    XCTAssertEqual(device.agentID, "test-agentid-1")
+                    XCTAssertEqual(device.policyID, "test-policyid-1")
+                    XCTAssertEqual(device.modelName, "test-device-model-name")
+                    XCTAssertEqual(device.hardwareModel, "test-hardware-model")
+                    XCTAssertEqual(device.osVersion, "test-os-version")
+                    XCTAssertEqual(device.serial, "test-serial-number-1")
+                    XCTAssertTrue(device.isOnline)
+                    XCTAssertTrue(device.hasMDM)
+                    XCTAssertTrue(device.isSupervised)
+                    
+                    expectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        wait(for: [expectation], timeout: 1)
+    }
 
     static var allTests = [
         ("testInitializer", testInitializer),
         ("testValidate", testValidate),
-        ("testGetDevices", testGetDevices)
+        ("testGetDevices", testGetDevices),
+        ("testGetOnlineDevices", testGetOnlineDevices)
     ]
 }
