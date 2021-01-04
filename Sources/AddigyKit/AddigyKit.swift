@@ -50,4 +50,26 @@ public class Addigy {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
+    
+    public func getDevices() -> AnyPublisher<[Device], Error> {
+        var request = URLRequest(url: URL(string:"https://\(realm).addigy.com/api/devices")!)
+        request.addValue(clientID, forHTTPHeaderField: "client-id")
+        request.addValue(clientSecret, forHTTPHeaderField: "client-secret")
+        
+        return session.dataTaskPublisher(for: request)
+            .tryMap() { element -> Data in
+                guard let response = element.response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+                
+                if response.statusCode == 401 {
+                    throw Addigy.Errors.invalidClientKeys
+                }
+                
+                return element.data
+            }
+            .decode(type: [Device].self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
 }
