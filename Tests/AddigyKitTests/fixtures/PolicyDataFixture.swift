@@ -34,4 +34,19 @@ struct PolicyDataFixture {
             ]
         """.data(using: .utf8)!
     }
+    
+    static var createPolicy: Data {
+        """
+            {
+                "color": "test-color",
+                "creation_time": 0,
+                "download_path": "test-download-path",
+                "icon": "test-icon",
+                "name": "test-policy-name",
+                "orgid": "test-org-id",
+                "parent": "test-parent-id",
+                "policyId": "test-policy-id"
+            }
+        """.data(using: .utf8)!
+    }
 }

@@ -32,6 +32,32 @@ public class Addigy {
     public func getPolicies() -> AnyPublisher<[Policy], Error> {
         return call(endpoint: "policies")
     }
+    
+    public func createPolicy(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> AnyPublisher<Policy, Error> {
+        let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+        let params = buildCreatePolicyParams(name: name, parent: parent, icon: icon, color: color)
+        let body = params.queryParameters.data(using: .utf8, allowLossyConversion: true)
+
+        return call(endpoint: "policies", method: "POST", headers: headers, body: body)
+    }
+    
+    private func buildCreatePolicyParams(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> [String:String] {
+        var params = ["name": name]
+        
+        if let parent = parent {
+            params["parent_id"] = parent
+        }
+        
+        if let icon = icon {
+            params["icon"] = icon
+        }
+        
+        if let color = color {
+            params["color"] = color
+        }
+        
+        return params
+    }
 }
 
 @available(OSX 10.15, *)
@@ -40,11 +66,17 @@ extension Addigy {
         case unauthorized
     }
     
-    private func call<Type: Decodable>(endpoint: String, method: String = "GET") -> AnyPublisher<Type, Error> {
+    private func call<Type: Decodable>(endpoint: String, method: String = "GET", headers: [String:String] = [:], body: Data? = nil) -> AnyPublisher<Type, Error> {
         var request = URLRequest(url: URL(string: "\(baseURL)\(endpoint)")!)
         request.httpMethod = method
         request.addValue(clientID, forHTTPHeaderField: "client-id")
         request.addValue(clientSecret, forHTTPHeaderField: "client-secret")
+        
+        for (key, value) in headers {
+            request.addValue(value, forHTTPHeaderField: key)
+        }
+        
+        request.httpBody = body
         
         return session.dataTaskPublisher(for: request)
             .tryMap() { element -> Data in
