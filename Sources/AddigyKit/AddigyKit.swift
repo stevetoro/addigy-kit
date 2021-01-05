@@ -18,19 +18,19 @@ public class Addigy {
     }
     
     public func validate() -> AnyPublisher<Token, Error> {
-        return call(endpoint: "validate", method: "POST")
+        return callAndDecode(endpoint: "validate", method: "POST")
     }
     
     public func getDevices() -> AnyPublisher<[Device], Error> {
-        return call(endpoint: "devices")
+        return callAndDecode(endpoint: "devices")
     }
     
     public func getOnlineDevices() -> AnyPublisher<[Device], Error> {
-        return call(endpoint: "devices/online")
+        return callAndDecode(endpoint: "devices/online")
     }
     
     public func getPolicies() -> AnyPublisher<[Policy], Error> {
-        return call(endpoint: "policies")
+        return callAndDecode(endpoint: "policies")
     }
     
     public func createPolicy(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> AnyPublisher<Policy, Error> {
@@ -38,11 +38,21 @@ public class Addigy {
         let params = buildCreatePolicyParams(name: name, parent: parent, icon: icon, color: color)
         let body = params.queryParameters.data(using: .utf8, allowLossyConversion: true)
 
-        return call(endpoint: "policies", method: "POST", headers: headers, body: body)
+        return callAndDecode(endpoint: "policies", method: "POST", headers: headers, body: body)
     }
     
     public func getDevices(in policyID: String) -> AnyPublisher<[Device], Error> {
-        return call(endpoint: "policies/devices?policy_id=\(policyID)")
+        return callAndDecode(endpoint: "policies/devices?policy_id=\(policyID)")
+    }
+    
+    public func addDevice(withAgentID agentID: String, toPolicy policyID: String) -> AnyPublisher<String, Error> {
+        let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+        let params = ["agent_id": agentID, "policy_id": policyID]
+        let body = params.queryParameters.data(using: .utf8, allowLossyConversion: true)
+        
+        return call(endpoint: "policies/devices", method: "POST", headers: headers, body: body)
+            .map { data in String(data: data, encoding: .utf8)! }
+            .eraseToAnyPublisher()
     }
     
     private func buildCreatePolicyParams(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> [String:String] {
@@ -70,7 +80,7 @@ extension Addigy {
         case unauthorized
     }
     
-    private func call<Type: Decodable>(endpoint: String, method: String = "GET", headers: [String:String] = [:], body: Data? = nil) -> AnyPublisher<Type, Error> {
+    private func call(endpoint: String, method: String = "GET", headers: [String:String] = [:], body: Data? = nil) -> AnyPublisher<Data, Error> {
         var request = URLRequest(url: URL(string: "\(baseURL)\(endpoint)")!)
         request.httpMethod = method
         request.addValue(clientID, forHTTPHeaderField: "client-id")
@@ -94,8 +104,13 @@ extension Addigy {
                 
                 return element.data
             }
-            .decode(type: Type.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    private func callAndDecode<Type: Decodable>(endpoint: String, method: String = "GET", headers: [String:String] = [:], body: Data? = nil) -> AnyPublisher<Type, Error> {
+        return call(endpoint: endpoint, method: method, headers: headers, body: body)
+            .decode(type: Type.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
 }

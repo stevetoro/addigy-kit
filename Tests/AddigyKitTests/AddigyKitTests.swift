@@ -266,6 +266,37 @@ final class AddigyKitTests: XCTestCase {
             )
             .store(in: &subscriptions)
         
+        
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testAddDeviceToPolicy() {
+        let url = URL(string: "https://prod.addigy.com/api/policies/devices")
+        let data = "".data(using: .utf8)!
+        URLProtocolStub.testURLs = [url: data]
+        
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        
+        let session = URLSession(configuration: config)
+        
+        let client = Addigy(
+            clientID: "test-client-id",
+            clientSecret: "test-client-secret",
+            session: session
+        )
+        
+        let expectation = XCTestExpectation(description: "addDeviceToPolicy")
+        client.addDevice(withAgentID: "test-agent-id", toPolicy: "test-policy-id")
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { value in
+                    XCTAssertEqual(value, "")
+                    expectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+
         wait(for: [expectation], timeout: 1)
     }
 
@@ -276,6 +307,7 @@ final class AddigyKitTests: XCTestCase {
         ("testGetOnlineDevices", testGetOnlineDevices),
         ("testGetPolicies", testGetPolicies),
         ("testCreatePolicy", testCreatePolicy),
-        ("testGetDevicesInPolicy", testGetDevicesInPolicy)
+        ("testGetDevicesInPolicy", testGetDevicesInPolicy),
+        ("testAddDeviceToPolicy", testAddDeviceToPolicy)
     ]
 }
