@@ -7,35 +7,37 @@ public class Addigy {
     let clientSecret: String
     let realm: String
     let session: URLSession
-    
-    enum Errors: Error {
-        case invalidClientKeys
-    }
+    let baseURL: String
     
     init(clientID: String, clientSecret: String, realm: String = "prod", session: URLSession = .shared) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.realm = realm
         self.session = session
+        self.baseURL = "https://\(realm).addigy.com/api/"
     }
     
     public func validate() -> AnyPublisher<Token, Error> {
-        return call(endpoint: "https://\(realm).addigy.com/api/validate", method: "POST")
+        return call(endpoint: "validate", method: "POST")
     }
     
     public func getDevices() -> AnyPublisher<[Device], Error> {
-        return call(endpoint: "https://\(realm).addigy.com/api/devices")
+        return call(endpoint: "devices")
     }
     
     public func getOnlineDevices() -> AnyPublisher<[Device], Error> {
-        return call(endpoint: "https://\(realm).addigy.com/api/devices/online")
+        return call(endpoint: "devices/online")
     }
 }
 
 @available(OSX 10.15, *)
 extension Addigy {
+    enum Errors: Error {
+        case unauthorized
+    }
+    
     private func call<Type: Decodable>(endpoint: String, method: String = "GET") -> AnyPublisher<Type, Error> {
-        var request = URLRequest(url: URL(string: endpoint)!)
+        var request = URLRequest(url: URL(string: "\(baseURL)\(endpoint)")!)
         request.httpMethod = method
         request.addValue(clientID, forHTTPHeaderField: "client-id")
         request.addValue(clientSecret, forHTTPHeaderField: "client-secret")
@@ -47,7 +49,7 @@ extension Addigy {
                 }
                 
                 if response.statusCode == 401 {
-                    throw Addigy.Errors.invalidClientKeys
+                    throw Addigy.Errors.unauthorized
                 }
                 
                 return element.data
