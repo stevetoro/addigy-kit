@@ -28,6 +28,10 @@ public class Addigy {
     public func getOnlineDevices() -> AnyPublisher<[Device], Error> {
         return call(endpoint: "devices/online")
     }
+    
+    public func getPolicies() -> AnyPublisher<[Policy], Error> {
+        return call(endpoint: "policies")
+    }
 }
 
 @available(OSX 10.15, *)

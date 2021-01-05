@@ -143,6 +143,53 @@ final class AddigyKitTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1)
     }
+    
+    func testGetPolicies() {
+        let url = URL(string: "https://prod.addigy.com/api/policies")
+        let data = PolicyDataFixture.getPolicies
+        URLProtocolStub.testURLs = [url: data]
+        
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        
+        let session = URLSession(configuration: config)
+        
+        let client = Addigy(
+            clientID: "test-client-id",
+            clientSecret: "test-client-secret",
+            session: session
+        )
+        
+        let expectation = XCTestExpectation(description: "getPolicies")
+        client.getPolicies()
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { policies in
+                    XCTAssertEqual(policies.count, 2)
+                    
+                    var policy = policies[0]
+                    XCTAssertEqual(policy.policyID, "test-policy-id-1")
+                    XCTAssertEqual(policy.parent, nil)
+                    XCTAssertEqual(policy.orgID, "test-org-id")
+                    XCTAssertEqual(policy.name, "test-name-1")
+                    XCTAssertEqual(policy.icon, "test-icon")
+                    XCTAssertEqual(policy.color, "test-color")
+                    
+                    policy = policies[1]
+                    XCTAssertEqual(policy.policyID, "test-policy-id-2")
+                    XCTAssertEqual(policy.parent, "test-policy-id-1")
+                    XCTAssertEqual(policy.orgID, "test-org-id")
+                    XCTAssertEqual(policy.name, "test-name-2")
+                    XCTAssertEqual(policy.icon, "test-icon")
+                    XCTAssertEqual(policy.color, "test-color")
+
+                    expectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        wait(for: [expectation], timeout: 10)
+    }
 
     static var allTests = [
         ("testInitializer", testInitializer),
