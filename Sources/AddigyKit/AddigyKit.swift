@@ -41,6 +41,10 @@ public class Addigy {
         return call(endpoint: "policies", method: "POST", headers: headers, body: body)
     }
     
+    public func getDevices(in policyID: String) -> AnyPublisher<[Device], Error> {
+        return call(endpoint: "policies/devices?policy_id=\(policyID)")
+    }
+    
     private func buildCreatePolicyParams(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> [String:String] {
         var params = ["name": name]
         

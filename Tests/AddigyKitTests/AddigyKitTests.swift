@@ -225,6 +225,49 @@ final class AddigyKitTests: XCTestCase {
         
         wait(for: [expectation], timeout: 1)
     }
+    
+    func testGetDevicesInPolicy() {
+        let testPolicyID = "test-policy-id"
+        let url = URL(string: "https://prod.addigy.com/api/policies/devices?policy_id=\(testPolicyID)")
+        let data = DeviceDataFixture.getDevicesInPolicy
+        URLProtocolStub.testURLs = [url: data]
+        
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        
+        let session = URLSession(configuration: config)
+        
+        let client = Addigy(
+            clientID: "test-client-id",
+            clientSecret: "test-client-secret",
+            session: session
+        )
+        
+        let expectation = XCTestExpectation(description: "getDevicesInPolicy")
+        client.getDevices(in: testPolicyID)
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { devices in
+                    XCTAssertEqual(devices.count, 1)
+                    
+                    let device = devices[0]
+                    XCTAssertEqual(device.agentID, "test-agent-id")
+                    XCTAssertEqual(device.policyID, "test-policy-id")
+                    XCTAssertEqual(device.serial, "test-serial-number")
+                    XCTAssertEqual(device.modelName, "test-device-model-name")
+                    XCTAssertEqual(device.hardwareModel, "test-hardware-model")
+                    XCTAssertEqual(device.osVersion, "test-os-version")
+                    XCTAssertFalse(device.isOnline)
+                    XCTAssertTrue(device.hasMDM)
+                    XCTAssertFalse(device.isSupervised)
+                    
+                    expectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        wait(for: [expectation], timeout: 1)
+    }
 
     static var allTests = [
         ("testInitializer", testInitializer),
@@ -232,6 +275,7 @@ final class AddigyKitTests: XCTestCase {
         ("testGetDevices", testGetDevices),
         ("testGetOnlineDevices", testGetOnlineDevices),
         ("testGetPolicies", testGetPolicies),
-        ("testCreatePolicy", testCreatePolicy)
+        ("testCreatePolicy", testCreatePolicy),
+        ("testGetDevicesInPolicy", testGetDevicesInPolicy)
     ]
 }

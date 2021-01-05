@@ -25,7 +25,7 @@ public struct Device: Codable {
         case hardwareModel = "Hardware Model"
         case osVersion = "OS Version"
         case serial = "Serial Number"
-        case isOnline = "online"
+        case isOnline = "Online"
         case hasMDM = "Has MDM"
         case isSupervised = "Is Supervised"
     }

@@ -17,7 +17,7 @@ struct DeviceDataFixture {
                     "Hardware Model": "test-hardware-model",
                     "OS Version": "test-os-version",
                     "Serial Number": "test-serial-number-1",
-                    "online": true,
+                    "Online": true,
                     "Has MDM": true,
                     "Is Supervised": false
                 },
@@ -28,7 +28,7 @@ struct DeviceDataFixture {
                     "Hardware Model": "test-hardware-model",
                     "OS Version": "test-os-version",
                     "Serial Number": "test-serial-number-2",
-                    "online": false,
+                    "Online": false,
                     "Has MDM": false,
                     "Is Supervised": false
                 }
@@ -46,9 +46,27 @@ struct DeviceDataFixture {
                     "Hardware Model": "test-hardware-model",
                     "OS Version": "test-os-version",
                     "Serial Number": "test-serial-number-1",
-                    "online": true,
+                    "Online": true,
                     "Has MDM": true,
                     "Is Supervised": true
+                }
+            ]
+        """.data(using: .utf8)!
+    }
+    
+    static var getDevicesInPolicy: Data {
+        """
+            [
+                {
+                    "agentid": "test-agent-id",
+                    "policy_id": "test-policy-id",
+                    "Device Model Name": "test-device-model-name",
+                    "Hardware Model": "test-hardware-model",
+                    "OS Version": "test-os-version",
+                    "Serial Number": "test-serial-number",
+                    "Online": false,
+                    "Has MDM": true,
+                    "Is Supervised": false
                 }
             ]
         """.data(using: .utf8)!
