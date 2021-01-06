@@ -319,9 +319,7 @@ final class AddigyKitTests: XCTestCase {
         let expectation = XCTestExpectation(description: "testGetAlerts")
         client.getAlerts()
             .sink(
-                receiveCompletion: { completion in
-                    print(completion)
-                },
+                receiveCompletion: { _ in },
                 receiveValue: { alerts in
                     XCTAssertEqual(alerts.count, 5)
                     
@@ -410,6 +408,53 @@ final class AddigyKitTests: XCTestCase {
 
         wait(for: [expectation], timeout: 1)
     }
+    
+    func testGetMaintenance() {
+        let url = URL(string: "https://prod.addigy.com/api/maintenance")
+        let data = MaintenanceDataFixture.getMaintenance
+        URLProtocolStub.testURLs = [url: data]
+        
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        
+        let session = URLSession(configuration: config)
+        
+        let client = Addigy(
+            clientID: "test-client-id",
+            clientSecret: "test-client-secret",
+            session: session
+        )
+        
+        let expectation = XCTestExpectation(description: "testGetMaintenance")
+        client.getMaintenance()
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { maintenance in
+                    XCTAssertEqual(maintenance.count, 1)
+                    
+                    let maintenance = maintenance[0]
+                    XCTAssertEqual(maintenance.actionType, "test-action-type")
+                    XCTAssertEqual(maintenance.agentID, "test-agent-id")
+                    XCTAssertEqual(maintenance.exitCode, 0)
+                    XCTAssertEqual(maintenance.jobID, "test-job-id")
+                    XCTAssertEqual(maintenance.jobTime, 60)
+                    XCTAssertEqual(maintenance.maxTryCount, 1)
+                    XCTAssertEqual(maintenance.name, "test-maintenance-name")
+                    XCTAssertEqual(maintenance.orgID, "test-org-id")
+                    XCTAssertEqual(maintenance.scheduledMaintenanceID, "test-scheduled-maintenance-id")
+                    XCTAssertEqual(maintenance.scheduledMaintenanceTime, "17")
+                    XCTAssertTrue(maintenance.shouldPromptUser)
+                    XCTAssertEqual(maintenance.status, "test-status")
+                    XCTAssertEqual(maintenance.tryCount, 0)
+                    XCTAssertEqual(maintenance.type, "test-maintenance-type")
+
+                    expectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        wait(for: [expectation], timeout: 1)
+    }
 
     static var allTests = [
         ("testInitializer", testInitializer),
@@ -420,6 +465,7 @@ final class AddigyKitTests: XCTestCase {
         ("testCreatePolicy", testCreatePolicy),
         ("testGetDevicesInPolicy", testGetDevicesInPolicy),
         ("testAddDeviceToPolicy", testAddDeviceToPolicy),
-        ("testGetAlerts", testGetAlerts)
+        ("testGetAlerts", testGetAlerts),
+        ("testGetMaintenance", testGetMaintenance),
     ]
 }

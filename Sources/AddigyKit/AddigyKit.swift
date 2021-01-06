@@ -59,6 +59,10 @@ public class Addigy {
         return callAndDecode(endpoint: "alerts")
     }
     
+    public func getMaintenance() -> AnyPublisher<[Maintenance], Error> {
+        return callAndDecode(endpoint: "maintenance")
+    }
+    
     private func buildCreatePolicyParams(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> [String:String] {
         var params = ["name": name]
         
