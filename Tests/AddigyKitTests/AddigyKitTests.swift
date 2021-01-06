@@ -299,6 +299,117 @@ final class AddigyKitTests: XCTestCase {
 
         wait(for: [expectation], timeout: 1)
     }
+    
+    func testGetAlerts() {
+        let url = URL(string: "https://prod.addigy.com/api/alerts")
+        let data = AlertDataFixture.getAlerts
+        URLProtocolStub.testURLs = [url: data]
+        
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolStub.self]
+        
+        let session = URLSession(configuration: config)
+        
+        let client = Addigy(
+            clientID: "test-client-id",
+            clientSecret: "test-client-secret",
+            session: session
+        )
+        
+        let expectation = XCTestExpectation(description: "testGetAlerts")
+        client.getAlerts()
+            .sink(
+                receiveCompletion: { completion in
+                    print(completion)
+                },
+                receiveValue: { alerts in
+                    XCTAssertEqual(alerts.count, 5)
+                    
+                    var alert = alerts[0]
+                    XCTAssertEqual(alert.agentID, "test-agent-id")
+                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.name, "test-alert-name-1")
+                    XCTAssertEqual(alert.emails.count, 1)
+                    XCTAssertEqual(alert.emails[0], "test@test.com")
+                    XCTAssertEqual(alert.factName, "test-fact-name-1")
+                    XCTAssertEqual(alert.factIdentifier, "test-fact-identifier-1")
+                    XCTAssertEqual(alert.status, "test-status-1")
+                    XCTAssertEqual(alert.level, "test-level-1")
+                    XCTAssertTrue(alert.isRemediationEnabled)
+                    XCTAssertEqual(alert.valueType, "string")
+                    XCTAssertNoThrow(alert.value as! String)
+                    XCTAssertEqual(alert.value as! String, "test-value")
+                    
+                    alert = alerts[1]
+                    XCTAssertEqual(alert.agentID, "test-agent-id")
+                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.name, "test-alert-name-2")
+                    XCTAssertEqual(alert.emails.count, 1)
+                    XCTAssertEqual(alert.emails[0], "test@test.com")
+                    XCTAssertEqual(alert.factName, "test-fact-name-2")
+                    XCTAssertEqual(alert.factIdentifier, "test-fact-identifier-2")
+                    XCTAssertEqual(alert.status, "test-status-2")
+                    XCTAssertEqual(alert.level, "test-level-2")
+                    XCTAssertFalse(alert.isRemediationEnabled)
+                    XCTAssertEqual(alert.valueType, "list")
+                    XCTAssertNoThrow(alert.value as! [String])
+                    let list = alert.value as! [String]
+                    XCTAssertEqual(list.count, 2)
+                    XCTAssertEqual(list[0], "test-value-1")
+                    XCTAssertEqual(list[1], "test-value-2")
+                    
+                    alert = alerts[2]
+                    XCTAssertEqual(alert.agentID, "test-agent-id")
+                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.name, "test-alert-name-3")
+                    XCTAssertEqual(alert.emails.count, 1)
+                    XCTAssertEqual(alert.emails[0], "test@test.com")
+                    XCTAssertEqual(alert.factName, "test-fact-name-3")
+                    XCTAssertEqual(alert.factIdentifier, "test-fact-identifier-3")
+                    XCTAssertEqual(alert.status, "test-status-3")
+                    XCTAssertEqual(alert.level, "test-level-3")
+                    XCTAssertTrue(alert.isRemediationEnabled)
+                    XCTAssertEqual(alert.valueType, "boolean")
+                    XCTAssertNoThrow(alert.value as! Bool)
+                    XCTAssertTrue(alert.value as! Bool)
+                    
+                    alert = alerts[3]
+                    XCTAssertEqual(alert.agentID, "test-agent-id")
+                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.name, "test-alert-name-4")
+                    XCTAssertEqual(alert.emails.count, 1)
+                    XCTAssertEqual(alert.emails[0], "test@test.com")
+                    XCTAssertEqual(alert.factName, "test-fact-name-4")
+                    XCTAssertEqual(alert.factIdentifier, "test-fact-identifier-4")
+                    XCTAssertEqual(alert.status, "test-status-4")
+                    XCTAssertEqual(alert.level, "test-level-4")
+                    XCTAssertFalse(alert.isRemediationEnabled)
+                    XCTAssertEqual(alert.valueType, "number")
+                    XCTAssertNoThrow(alert.value as! Float)
+                    XCTAssertEqual(alert.value as! Float, 200)
+                    
+                    alert = alerts[4]
+                    XCTAssertEqual(alert.agentID, "test-agent-id")
+                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.name, "test-alert-name-5")
+                    XCTAssertEqual(alert.emails.count, 1)
+                    XCTAssertEqual(alert.emails[0], "test@test.com")
+                    XCTAssertEqual(alert.factName, "test-fact-name-5")
+                    XCTAssertEqual(alert.factIdentifier, "test-fact-identifier-5")
+                    XCTAssertEqual(alert.status, "test-status-5")
+                    XCTAssertEqual(alert.level, "test-level-5")
+                    XCTAssertTrue(alert.isRemediationEnabled)
+                    XCTAssertEqual(alert.valueType, "date")
+                    XCTAssertNoThrow(alert.value as! String)
+                    XCTAssertEqual(alert.value as! String, "2017-07-02T00:00:00Z")
+                    
+                    expectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+
+        wait(for: [expectation], timeout: 1)
+    }
 
     static var allTests = [
         ("testInitializer", testInitializer),
@@ -308,6 +419,7 @@ final class AddigyKitTests: XCTestCase {
         ("testGetPolicies", testGetPolicies),
         ("testCreatePolicy", testCreatePolicy),
         ("testGetDevicesInPolicy", testGetDevicesInPolicy),
-        ("testAddDeviceToPolicy", testAddDeviceToPolicy)
+        ("testAddDeviceToPolicy", testAddDeviceToPolicy),
+        ("testGetAlerts", testGetAlerts)
     ]
 }

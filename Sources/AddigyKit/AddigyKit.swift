@@ -55,6 +55,10 @@ public class Addigy {
             .eraseToAnyPublisher()
     }
     
+    public func getAlerts() -> AnyPublisher<[Alert], Error> {
+        return callAndDecode(endpoint: "alerts")
+    }
+    
     private func buildCreatePolicyParams(name: String, parent: String? = nil, icon: String? = nil, color: String? = nil) -> [String:String] {
         var params = ["name": name]
         

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Device: Codable {
+public struct Device: Decodable {
     let agentID: String
     let policyID: String
     let modelName: String
