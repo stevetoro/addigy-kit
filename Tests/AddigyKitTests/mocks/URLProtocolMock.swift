@@ -1,5 +1,5 @@
 //
-//  URLProtocolStub.swift
+//  URLProtocolMock.swift
 //  
 //
 //  Created by Steve Toro on 1/4/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class URLProtocolStub: URLProtocol {
+class URLProtocolMock: URLProtocol {
     static var testURLs = [URL?: Data]()
 
     override class func canInit(with request: URLRequest) -> Bool {
@@ -20,7 +20,7 @@ class URLProtocolStub: URLProtocol {
 
     override func startLoading() {
         if let url = request.url {
-            if let data = URLProtocolStub.testURLs[url] {
+            if let data = URLProtocolMock.testURLs[url] {
                 let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/2.0", headerFields: ["data": data.base64EncodedString()])
                 self.client?.urlProtocol(self, didReceive: response!, cacheStoragePolicy: .notAllowed)
                 self.client?.urlProtocol(self, didLoad: data)

@@ -22,10 +22,10 @@ final class AddigyKitTests: XCTestCase {
     func testValidate() {
         let url = URL(string: "https://prod.addigy.com/api/validate")
         let data = Data("{\"orgid\": \"test-org-id\"}".utf8)
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
 
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
 
         let session = URLSession(configuration: config)
         
@@ -52,10 +52,10 @@ final class AddigyKitTests: XCTestCase {
     func testGetDevices() {
         let url = URL(string: "https://prod.addigy.com/api/devices")
         let data = DeviceDataFixture.getDevices
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -105,10 +105,10 @@ final class AddigyKitTests: XCTestCase {
     func testGetOnlineDevices() {
         let url = URL(string: "https://prod.addigy.com/api/devices/online")
         let data = DeviceDataFixture.getOnlineDevices
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -147,10 +147,10 @@ final class AddigyKitTests: XCTestCase {
     func testGetPolicies() {
         let url = URL(string: "https://prod.addigy.com/api/policies")
         let data = PolicyDataFixture.getPolicies
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -194,10 +194,10 @@ final class AddigyKitTests: XCTestCase {
     func testCreatePolicy() {
         let url = URL(string: "https://prod.addigy.com/api/policies")
         let data = PolicyDataFixture.createPolicy
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -230,10 +230,10 @@ final class AddigyKitTests: XCTestCase {
         let testPolicyID = "test-policy-id"
         let url = URL(string: "https://prod.addigy.com/api/policies/devices?policy_id=\(testPolicyID)")
         let data = DeviceDataFixture.getDevicesInPolicy
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -273,10 +273,10 @@ final class AddigyKitTests: XCTestCase {
     func testAddDeviceToPolicy() {
         let url = URL(string: "https://prod.addigy.com/api/policies/devices")
         let data = "".data(using: .utf8)!
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -303,10 +303,10 @@ final class AddigyKitTests: XCTestCase {
     func testGetAlerts() {
         let url = URL(string: "https://prod.addigy.com/api/alerts")
         let data = AlertDataFixture.getAlerts
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
@@ -412,10 +412,10 @@ final class AddigyKitTests: XCTestCase {
     func testGetMaintenance() {
         let url = URL(string: "https://prod.addigy.com/api/maintenance")
         let data = MaintenanceDataFixture.getMaintenance
-        URLProtocolStub.testURLs = [url: data]
+        URLProtocolMock.testURLs = [url: data]
         
         let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolStub.self]
+        config.protocolClasses = [URLProtocolMock.self]
         
         let session = URLSession(configuration: config)
         
