@@ -1,5 +1,6 @@
 # AddigyKit
 
+[![Build Status](https://api.travis-ci.org/stevetoro/addigy-kit.svg?branch=main)](https://travis-ci.org/stevetoro/addigy-kit)
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 
 ## What is this?
