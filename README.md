@@ -11,7 +11,17 @@ All code is written in Swift and uses Apple's Combine framework. No third-party 
 
 ## Requirements
 
-OSX 10.15+, iOS 13+, tvOS 13.0+, watchOS 6.0+
+OSX 10.15+, iOS 13.0+, tvOS 13.0+, watchOS 6.0+
+
+## Installation
+
+### Swift Package Manager
+
+Add as a Swift package dependency within your Xcode project: File > Swift Packages > Add Package Dependency.
+
+```
+https://github.com/stevetoro/addigy-kit
+```
 
 ## Usage
 
@@ -33,16 +43,6 @@ let subscription = client.getDevices()
         // do something with your devices
         }
     )
-```
-
-## Installation
-
-### Swift Package Manager
-
-Add as a Swift package dependency within your Xcode project: File > Swift Packages > Add Package Dependency.
-
-```
-https://github.com/stevetoro/addigy-kit
 ```
 
 ## Author
