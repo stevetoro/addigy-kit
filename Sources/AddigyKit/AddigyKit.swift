@@ -9,7 +9,7 @@ public class Addigy {
     let session: URLSession
     let baseURL: String
     
-    init(clientID: String, clientSecret: String, realm: String = "prod", session: URLSession = .shared) {
+    public init(clientID: String, clientSecret: String, realm: String = "prod", session: URLSession = .shared) {
         self.clientID = clientID
         self.clientSecret = clientSecret
         self.realm = realm
@@ -82,7 +82,7 @@ public class Addigy {
     }
 }
 
-@available(OSX 10.15, iOS 13, tvOS 13.0, watchOS 6.0, *)
+@available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Addigy {
     enum Errors: Error {
         case unauthorized
