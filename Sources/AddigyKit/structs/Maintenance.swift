@@ -39,4 +39,21 @@ public struct Maintenance: Decodable {
         case tryCount = "trycount"
         case type = "maintenancetype"
     }
+    
+    public init(actionType: String, agentID: String, exitCode: Int, jobID: String, jobTime: Int, maxTryCount: Int, name: String, orgID: String, scheduledMaintenanceID: String, scheduledMaintenanceTime: String, shouldPromptUser: Bool, status: String, tryCount: Int, type: String) {
+        self.actionType = actionType
+        self.agentID = agentID
+        self.exitCode = exitCode
+        self.jobID = jobID
+        self.jobTime = jobTime
+        self.maxTryCount = maxTryCount
+        self.name = name
+        self.orgID = orgID
+        self.scheduledMaintenanceID = scheduledMaintenanceID
+        self.scheduledMaintenanceTime = scheduledMaintenanceTime
+        self.shouldPromptUser = shouldPromptUser
+        self.status = status
+        self.tryCount = tryCount
+        self.type = type
+    }
 }

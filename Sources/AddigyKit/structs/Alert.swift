@@ -9,29 +9,29 @@ import Foundation
 
 public struct Alert: Decodable {
     public let agentID: String
-    public let orgID: String
-    public let name: String
-    public let emails: [String]
-    public let factName: String
-    public let factIdentifier: String
     public let category: String
-    public let status: String
-    public let level: String
+    public let emails: [String]
+    public let factIdentifier: String
+    public let factName: String
     public let isRemediationEnabled: Bool
+    public let level: String
+    public let name: String
+    public let orgID: String
+    public let status: String
     public let value: Any
     public let valueType: String
     
     enum CodingKeys: String, CodingKey {
         case agentID = "agentid"
-        case orgID = "orgid"
-        case name = "name"
-        case emails = "emails"
-        case factName = "fact_name"
-        case factIdentifier = "fact_identifier"
         case category = "category"
-        case status = "status"
-        case level = "level"
+        case emails = "emails"
+        case factIdentifier = "fact_identifier"
+        case factName = "fact_name"
         case isRemediationEnabled = "remenabled"
+        case level = "level"
+        case name = "name"
+        case orgID = "orgid"
+        case status = "status"
         case value = "value"
         case valueType = "valuetype"
     }
@@ -40,15 +40,15 @@ public struct Alert: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         agentID = try container.decode(String.self, forKey: .agentID)
-        orgID = try container.decode(String.self, forKey: .orgID)
-        name = try container.decode(String.self, forKey: .name)
-        emails = try container.decode([String].self, forKey: .emails)
-        factName = try container.decode(String.self, forKey: .factName)
-        factIdentifier = try container.decode(String.self, forKey: .factIdentifier)
         category = try container.decode(String.self, forKey: .category)
-        status = try container.decode(String.self, forKey: .status)
-        level = try container.decode(String.self, forKey: .level)
+        emails = try container.decode([String].self, forKey: .emails)
+        factIdentifier = try container.decode(String.self, forKey: .factIdentifier)
+        factName = try container.decode(String.self, forKey: .factName)
         isRemediationEnabled = try container.decode(Bool.self, forKey: .isRemediationEnabled)
+        level = try container.decode(String.self, forKey: .level)
+        name = try container.decode(String.self, forKey: .name)
+        orgID = try container.decode(String.self, forKey: .orgID)
+        status = try container.decode(String.self, forKey: .status)
         valueType = try container.decode(String.self, forKey: .valueType)
         
         switch valueType {
@@ -67,5 +67,20 @@ public struct Alert: Decodable {
         }
 
         return
+    }
+    
+    public init(agentID: String, category: String, emails: [String], factIdentifier: String, factName: String, isRemediationEnabled: Bool, level: String, name: String, orgID: String, status: String, value: Any, valueType: String) {
+        self.agentID = agentID
+        self.category = category
+        self.emails = emails
+        self.factIdentifier = factIdentifier
+        self.factName = factName
+        self.isRemediationEnabled = isRemediationEnabled
+        self.level = level
+        self.name = name
+        self.orgID = orgID
+        self.status = status
+        self.value = value
+        self.valueType = valueType
     }
 }

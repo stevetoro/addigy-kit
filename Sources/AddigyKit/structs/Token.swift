@@ -13,4 +13,8 @@ public struct Token: Decodable {
     enum CodingKeys: String, CodingKey {
         case orgID = "orgid"
     }
+    
+    public init(orgID: String) {
+        self.orgID = orgID
+    }
 }
