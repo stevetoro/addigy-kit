@@ -11,25 +11,25 @@ public struct Policy: Decodable {
     public let color: String
     public let icon: String
     public let name: String
-    public let orgID: String
+    public let orgId: String
     public let parent: String?
-    public let policyID: String
+    public let policyId: String
 
     enum CodingKeys: String, CodingKey {
         case color = "color"
         case icon = "icon"
         case name = "name"
-        case orgID = "orgid"
+        case orgId = "orgid"
         case parent = "parent"
-        case policyID = "policyId"
+        case policyId = "policyId"
     }
     
-    public init(color: String, icon: String, name: String, orgID: String, parent: String? = nil, policyID: String) {
+    public init(color: String, icon: String, name: String, orgId: String, parent: String? = nil, policyId: String) {
         self.color = color
         self.icon = icon
         self.name = name
-        self.orgID = orgID
+        self.orgId = orgId
         self.parent = parent
-        self.policyID = policyID
+        self.policyId = policyId
     }
 }

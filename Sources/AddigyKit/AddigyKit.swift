@@ -3,14 +3,14 @@ import Combine
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public class Addigy {
-    let clientID: String
+    let clientId: String
     let clientSecret: String
     let realm: String
-    let session: URLSession
     let baseURL: String
+    let session: URLSession
     
-    public init(clientID: String, clientSecret: String, realm: String = "prod", session: URLSession = .shared) {
-        self.clientID = clientID
+    public init(clientId: String, clientSecret: String, realm: String = "prod", session: URLSession = .shared) {
+        self.clientId = clientId
         self.clientSecret = clientSecret
         self.realm = realm
         self.session = session
@@ -41,13 +41,13 @@ public class Addigy {
         return callAndDecode(endpoint: "policies", method: "POST", headers: headers, body: body)
     }
     
-    public func getDevices(in policyID: String) -> AnyPublisher<[Device], Error> {
-        return callAndDecode(endpoint: "policies/devices?policy_id=\(policyID)")
+    public func getDevices(inPolicy policyId: String) -> AnyPublisher<[Device], Error> {
+        return callAndDecode(endpoint: "policies/devices?policy_id=\(policyId)")
     }
     
-    public func addDevice(withAgentID agentID: String, toPolicy policyID: String) -> AnyPublisher<String, Error> {
+    public func addDevice(withAgentId agentId: String, toPolicy policyID: String) -> AnyPublisher<String, Error> {
         let headers = ["Content-Type": "application/x-www-form-urlencoded"]
-        let params = ["agent_id": agentID, "policy_id": policyID]
+        let params = ["agent_id": agentId, "policy_id": policyID]
         let body = params.queryParameters.data(using: .utf8, allowLossyConversion: true)
         
         return call(endpoint: "policies/devices", method: "POST", headers: headers, body: body)
@@ -91,7 +91,7 @@ extension Addigy {
     private func call(endpoint: String, method: String = "GET", headers: [String:String] = [:], body: Data? = nil) -> AnyPublisher<Data, Error> {
         var request = URLRequest(url: URL(string: "\(baseURL)\(endpoint)")!)
         request.httpMethod = method
-        request.addValue(clientID, forHTTPHeaderField: "client-id")
+        request.addValue(clientId, forHTTPHeaderField: "client-id")
         request.addValue(clientSecret, forHTTPHeaderField: "client-secret")
         
         for (key, value) in headers {

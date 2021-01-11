@@ -7,16 +7,24 @@ final class AddigyKitTests: XCTestCase {
     var subscriptions = Set<AnyCancellable>()
     
     func testInitializer() {
-        var client = Addigy(clientID: "test-client-id", clientSecret: "test-client-secret")
-        XCTAssertEqual(client.clientID, "test-client-id")
+        var client = Addigy(clientId: "test-client-id", clientSecret: "test-client-secret")
+        XCTAssertEqual(client.clientId, "test-client-id")
         XCTAssertEqual(client.clientSecret, "test-client-secret")
         XCTAssertEqual(client.realm, "prod")
+        XCTAssertEqual(client.baseURL, "https://prod.addigy.com/api/")
         XCTAssertEqual(client.session, .shared)
         
         let session = URLSession(configuration: .ephemeral)
-        client = Addigy(clientID: "test-client-id", clientSecret: "test-client-secret", realm: "dev", session: session)
+        client = Addigy(
+            clientId: "test-client-id",
+            clientSecret: "test-client-secret",
+            realm: "dev",
+            session: session
+        )
+        
         XCTAssertEqual(client.realm, "dev")
         XCTAssertEqual(client.session, session)
+        XCTAssertEqual(client.baseURL, "https://dev.addigy.com/api/")
     }
     
     func testValidate() {
@@ -30,7 +38,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -40,7 +48,7 @@ final class AddigyKitTests: XCTestCase {
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { token in
-                    XCTAssertEqual(token.orgID, "test-org-id")
+                    XCTAssertEqual(token.orgId, "test-org-id")
                     expectation.fulfill()
                 }
             )
@@ -60,7 +68,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -73,8 +81,8 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(devices.count, 2)
                     
                     var device = devices[0]
-                    XCTAssertEqual(device.agentID, "test-agentid-1")
-                    XCTAssertEqual(device.policyID, "test-policyid-1")
+                    XCTAssertEqual(device.agentId, "test-agentid-1")
+                    XCTAssertEqual(device.policyId, "test-policyid-1")
                     XCTAssertEqual(device.modelName, "test-device-model-name")
                     XCTAssertEqual(device.hardwareModel, "test-hardware-model")
                     XCTAssertEqual(device.osVersion, "test-os-version")
@@ -84,8 +92,8 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertFalse(device.isSupervised)
                     
                     device = devices[1]
-                    XCTAssertEqual(device.agentID, "test-agentid-2")
-                    XCTAssertEqual(device.policyID, "test-policyid-1")
+                    XCTAssertEqual(device.agentId, "test-agentid-2")
+                    XCTAssertEqual(device.policyId, "test-policyid-1")
                     XCTAssertEqual(device.modelName, "test-device-model-name")
                     XCTAssertEqual(device.hardwareModel, "test-hardware-model")
                     XCTAssertEqual(device.osVersion, "test-os-version")
@@ -113,7 +121,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -126,8 +134,8 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(devices.count, 1)
                     
                     let device = devices[0]
-                    XCTAssertEqual(device.agentID, "test-agentid-1")
-                    XCTAssertEqual(device.policyID, "test-policyid-1")
+                    XCTAssertEqual(device.agentId, "test-agentid-1")
+                    XCTAssertEqual(device.policyId, "test-policyid-1")
                     XCTAssertEqual(device.modelName, "test-device-model-name")
                     XCTAssertEqual(device.hardwareModel, "test-hardware-model")
                     XCTAssertEqual(device.osVersion, "test-os-version")
@@ -155,7 +163,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -168,17 +176,17 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(policies.count, 2)
                     
                     var policy = policies[0]
-                    XCTAssertEqual(policy.policyID, "test-policy-id-1")
+                    XCTAssertEqual(policy.policyId, "test-policy-id-1")
                     XCTAssertNil(policy.parent)
-                    XCTAssertEqual(policy.orgID, "test-org-id")
+                    XCTAssertEqual(policy.orgId, "test-org-id")
                     XCTAssertEqual(policy.name, "test-name-1")
                     XCTAssertEqual(policy.icon, "test-icon")
                     XCTAssertEqual(policy.color, "test-color")
                     
                     policy = policies[1]
-                    XCTAssertEqual(policy.policyID, "test-policy-id-2")
+                    XCTAssertEqual(policy.policyId, "test-policy-id-2")
                     XCTAssertEqual(policy.parent, "test-policy-id-1")
-                    XCTAssertEqual(policy.orgID, "test-org-id")
+                    XCTAssertEqual(policy.orgId, "test-org-id")
                     XCTAssertEqual(policy.name, "test-name-2")
                     XCTAssertEqual(policy.icon, "test-icon")
                     XCTAssertEqual(policy.color, "test-color")
@@ -202,7 +210,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -213,9 +221,9 @@ final class AddigyKitTests: XCTestCase {
                 receiveCompletion: { _ in },
                 receiveValue: { policy in
                     XCTAssertEqual(policy.name, "test-policy-name")
-                    XCTAssertEqual(policy.policyID, "test-policy-id")
+                    XCTAssertEqual(policy.policyId, "test-policy-id")
                     XCTAssertEqual(policy.parent, "test-parent-id")
-                    XCTAssertEqual(policy.orgID, "test-org-id")
+                    XCTAssertEqual(policy.orgId, "test-org-id")
                     XCTAssertEqual(policy.icon, "test-icon")
                     XCTAssertEqual(policy.color, "test-color")
                     expectation.fulfill()
@@ -238,21 +246,21 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
         
         let expectation = XCTestExpectation(description: "getDevicesInPolicy")
-        client.getDevices(in: testPolicyID)
+        client.getDevices(inPolicy: testPolicyID)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { devices in
                     XCTAssertEqual(devices.count, 1)
                     
                     let device = devices[0]
-                    XCTAssertEqual(device.agentID, "test-agent-id")
-                    XCTAssertEqual(device.policyID, "test-policy-id")
+                    XCTAssertEqual(device.agentId, "test-agent-id")
+                    XCTAssertEqual(device.policyId, "test-policy-id")
                     XCTAssertEqual(device.serial, "test-serial-number")
                     XCTAssertEqual(device.modelName, "test-device-model-name")
                     XCTAssertEqual(device.hardwareModel, "test-hardware-model")
@@ -281,13 +289,13 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
         
         let expectation = XCTestExpectation(description: "addDeviceToPolicy")
-        client.addDevice(withAgentID: "test-agent-id", toPolicy: "test-policy-id")
+        client.addDevice(withAgentId: "test-agent-id", toPolicy: "test-policy-id")
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { value in
@@ -311,7 +319,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -430,7 +438,7 @@ final class AddigyKitTests: XCTestCase {
         let session = URLSession(configuration: config)
         
         let client = Addigy(
-            clientID: "test-client-id",
+            clientId: "test-client-id",
             clientSecret: "test-client-secret",
             session: session
         )
@@ -444,14 +452,14 @@ final class AddigyKitTests: XCTestCase {
                     
                     let maintenance = maintenance[0]
                     XCTAssertEqual(maintenance.actionType, "test-action-type")
-                    XCTAssertEqual(maintenance.agentID, "test-agent-id")
+                    XCTAssertEqual(maintenance.agentId, "test-agent-id")
                     XCTAssertEqual(maintenance.exitCode, 0)
-                    XCTAssertEqual(maintenance.jobID, "test-job-id")
+                    XCTAssertEqual(maintenance.jobId, "test-job-id")
                     XCTAssertEqual(maintenance.jobTime, 60)
                     XCTAssertEqual(maintenance.maxTryCount, 1)
                     XCTAssertEqual(maintenance.name, "test-maintenance-name")
-                    XCTAssertEqual(maintenance.orgID, "test-org-id")
-                    XCTAssertEqual(maintenance.scheduledMaintenanceID, "test-scheduled-maintenance-id")
+                    XCTAssertEqual(maintenance.orgId, "test-org-id")
+                    XCTAssertEqual(maintenance.scheduledMaintenanceId, "test-scheduled-maintenance-id")
                     XCTAssertEqual(maintenance.scheduledMaintenanceTime, "17")
                     XCTAssertTrue(maintenance.shouldPromptUser)
                     XCTAssertEqual(maintenance.status, "test-status")

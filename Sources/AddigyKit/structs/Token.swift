@@ -8,13 +8,13 @@
 import Foundation
 
 public struct Token: Decodable {
-    public let orgID: String
+    public let orgId: String
     
     enum CodingKeys: String, CodingKey {
-        case orgID = "orgid"
+        case orgId = "orgid"
     }
     
     public init(orgID: String) {
-        self.orgID = orgID
+        self.orgId = orgID
     }
 }

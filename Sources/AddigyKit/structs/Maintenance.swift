@@ -9,14 +9,14 @@ import Foundation
 
 public struct Maintenance: Decodable {
     public let actionType: String
-    public let agentID: String
+    public let agentId: String
     public let exitCode: Int
-    public let jobID: String
+    public let jobId: String
     public let jobTime: Int
     public let maxTryCount: Int
     public let name: String
-    public let orgID: String
-    public let scheduledMaintenanceID: String
+    public let orgId: String
+    public let scheduledMaintenanceId: String
     public let scheduledMaintenanceTime: String
     public let shouldPromptUser: Bool
     public let status: String
@@ -25,14 +25,14 @@ public struct Maintenance: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case actionType = "actiontype"
-        case agentID = "agentid"
+        case agentId = "agentid"
         case exitCode = "exitcode"
-        case jobID = "jobid"
+        case jobId = "jobid"
         case jobTime = "jobtime"
         case maxTryCount = "maxtrycount"
         case name = "maintenancename"
-        case orgID = "orgid"
-        case scheduledMaintenanceID = "scheduled_maintenance_id"
+        case orgId = "orgid"
+        case scheduledMaintenanceId = "scheduled_maintenance_id"
         case scheduledMaintenanceTime = "scheduledtime"
         case shouldPromptUser = "promptuser"
         case status = "status"
@@ -40,16 +40,16 @@ public struct Maintenance: Decodable {
         case type = "maintenancetype"
     }
     
-    public init(actionType: String, agentID: String, exitCode: Int, jobID: String, jobTime: Int, maxTryCount: Int, name: String, orgID: String, scheduledMaintenanceID: String, scheduledMaintenanceTime: String, shouldPromptUser: Bool, status: String, tryCount: Int, type: String) {
+    public init(actionType: String, agentId: String, exitCode: Int, jobId: String, jobTime: Int, maxTryCount: Int, name: String, orgId: String, scheduledMaintenanceId: String, scheduledMaintenanceTime: String, shouldPromptUser: Bool, status: String, tryCount: Int, type: String) {
         self.actionType = actionType
-        self.agentID = agentID
+        self.agentId = agentId
         self.exitCode = exitCode
-        self.jobID = jobID
+        self.jobId = jobId
         self.jobTime = jobTime
         self.maxTryCount = maxTryCount
         self.name = name
-        self.orgID = orgID
-        self.scheduledMaintenanceID = scheduledMaintenanceID
+        self.orgId = orgId
+        self.scheduledMaintenanceId = scheduledMaintenanceId
         self.scheduledMaintenanceTime = scheduledMaintenanceTime
         self.shouldPromptUser = shouldPromptUser
         self.status = status
