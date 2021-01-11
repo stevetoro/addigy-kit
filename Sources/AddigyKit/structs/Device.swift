@@ -8,15 +8,15 @@
 import Foundation
 
 public struct Device: Decodable {
-    let agentID: String
-    let policyID: String
-    let modelName: String
-    let hardwareModel: String
-    let osVersion: String
-    let serial: String
-    let isOnline: Bool
-    let hasMDM: Bool
-    let isSupervised: Bool
+    public let agentID: String
+    public let policyID: String
+    public let modelName: String
+    public let hardwareModel: String
+    public let osVersion: String
+    public let serial: String
+    public let isOnline: Bool
+    public let hasMDM: Bool
+    public let isSupervised: Bool
     
     enum CodingKeys: String, CodingKey {
         case agentID = "agentid"

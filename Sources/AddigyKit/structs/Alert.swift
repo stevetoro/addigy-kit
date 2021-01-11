@@ -8,18 +8,18 @@
 import Foundation
 
 public struct Alert: Decodable {
-    let agentID: String
-    let orgID: String
-    let name: String
-    let emails: [String]
-    let factName: String
-    let factIdentifier: String
-    let category: String
-    let status: String
-    let level: String
-    let isRemediationEnabled: Bool
-    let value: Any
-    let valueType: String
+    public let agentID: String
+    public let orgID: String
+    public let name: String
+    public let emails: [String]
+    public let factName: String
+    public let factIdentifier: String
+    public let category: String
+    public let status: String
+    public let level: String
+    public let isRemediationEnabled: Bool
+    public let value: Any
+    public let valueType: String
     
     enum CodingKeys: String, CodingKey {
         case agentID = "agentid"

@@ -8,20 +8,20 @@
 import Foundation
 
 public struct Maintenance: Decodable {
-    let actionType: String
-    let agentID: String
-    let exitCode: Int
-    let jobID: String
-    let jobTime: Int
-    let maxTryCount: Int
-    let name: String
-    let orgID: String
-    let scheduledMaintenanceID: String
-    let scheduledMaintenanceTime: String
-    let shouldPromptUser: Bool
-    let status: String
-    let tryCount: Int
-    let type: String
+    public let actionType: String
+    public let agentID: String
+    public let exitCode: Int
+    public let jobID: String
+    public let jobTime: Int
+    public let maxTryCount: Int
+    public let name: String
+    public let orgID: String
+    public let scheduledMaintenanceID: String
+    public let scheduledMaintenanceTime: String
+    public let shouldPromptUser: Bool
+    public let status: String
+    public let tryCount: Int
+    public let type: String
 
     enum CodingKeys: String, CodingKey {
         case actionType = "actiontype"
