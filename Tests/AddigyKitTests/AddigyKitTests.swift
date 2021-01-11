@@ -324,8 +324,10 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(alerts.count, 5)
                     
                     var alert = alerts[0]
-                    XCTAssertEqual(alert.agentID, "test-agent-id")
-                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.id, "test-alert-id")
+                    XCTAssertEqual(alert.agentId, "test-agent-id")
+                    XCTAssertEqual(alert.createdDate, "test-date")
+                    XCTAssertEqual(alert.orgId, "test-org-id")
                     XCTAssertEqual(alert.name, "test-alert-name-1")
                     XCTAssertEqual(alert.emails.count, 1)
                     XCTAssertEqual(alert.emails[0], "test@test.com")
@@ -339,8 +341,10 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(alert.value as! String, "test-value")
                     
                     alert = alerts[1]
-                    XCTAssertEqual(alert.agentID, "test-agent-id")
-                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.id, "test-alert-id")
+                    XCTAssertEqual(alert.agentId, "test-agent-id")
+                    XCTAssertEqual(alert.createdDate, "test-date")
+                    XCTAssertEqual(alert.orgId, "test-org-id")
                     XCTAssertEqual(alert.name, "test-alert-name-2")
                     XCTAssertEqual(alert.emails.count, 1)
                     XCTAssertEqual(alert.emails[0], "test@test.com")
@@ -357,8 +361,10 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(list[1], "test-value-2")
                     
                     alert = alerts[2]
-                    XCTAssertEqual(alert.agentID, "test-agent-id")
-                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.id, "test-alert-id")
+                    XCTAssertEqual(alert.agentId, "test-agent-id")
+                    XCTAssertEqual(alert.createdDate, "test-date")
+                    XCTAssertEqual(alert.orgId, "test-org-id")
                     XCTAssertEqual(alert.name, "test-alert-name-3")
                     XCTAssertEqual(alert.emails.count, 1)
                     XCTAssertEqual(alert.emails[0], "test@test.com")
@@ -372,8 +378,10 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertTrue(alert.value as! Bool)
                     
                     alert = alerts[3]
-                    XCTAssertEqual(alert.agentID, "test-agent-id")
-                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.id, "test-alert-id")
+                    XCTAssertEqual(alert.agentId, "test-agent-id")
+                    XCTAssertEqual(alert.createdDate, "test-date")
+                    XCTAssertEqual(alert.orgId, "test-org-id")
                     XCTAssertEqual(alert.name, "test-alert-name-4")
                     XCTAssertEqual(alert.emails.count, 1)
                     XCTAssertEqual(alert.emails[0], "test@test.com")
@@ -387,8 +395,10 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(alert.value as! Float, 200)
                     
                     alert = alerts[4]
-                    XCTAssertEqual(alert.agentID, "test-agent-id")
-                    XCTAssertEqual(alert.orgID, "test-org-id")
+                    XCTAssertEqual(alert.id, "test-alert-id")
+                    XCTAssertEqual(alert.agentId, "test-agent-id")
+                    XCTAssertEqual(alert.createdDate, "test-date")
+                    XCTAssertEqual(alert.orgId, "test-org-id")
                     XCTAssertEqual(alert.name, "test-alert-name-5")
                     XCTAssertEqual(alert.emails.count, 1)
                     XCTAssertEqual(alert.emails[0], "test@test.com")
@@ -399,7 +409,7 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertTrue(alert.isRemediationEnabled)
                     XCTAssertEqual(alert.valueType, "date")
                     XCTAssertNoThrow(alert.value as! String)
-                    XCTAssertEqual(alert.value as! String, "2017-07-02T00:00:00Z")
+                    XCTAssertEqual(alert.value as! String, "test-date-2")
                     
                     expectation.fulfill()
                 }

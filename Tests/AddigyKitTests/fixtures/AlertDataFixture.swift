@@ -12,7 +12,9 @@ struct AlertDataFixture {
         """
             [
                 {
+                    "_id": "test-alert-id",
                     "agentid": "test-agent-id",
+                    "created_date": "test-date",
                     "orgid": "test-org-id",
                     "name": "test-alert-name-1",
                     "emails": [
@@ -28,7 +30,9 @@ struct AlertDataFixture {
                     "valuetype": "string"
                 },
                 {
+                    "_id": "test-alert-id",
                     "agentid": "test-agent-id",
+                    "created_date": "test-date",
                     "orgid": "test-org-id",
                     "name": "test-alert-name-2",
                     "emails": [
@@ -44,7 +48,9 @@ struct AlertDataFixture {
                     "valuetype": "list"
                 },
                 {
+                    "_id": "test-alert-id",
                     "agentid": "test-agent-id",
+                    "created_date": "test-date",
                     "orgid": "test-org-id",
                     "name": "test-alert-name-3",
                     "emails": [
@@ -60,7 +66,9 @@ struct AlertDataFixture {
                     "valuetype": "boolean"
                 },
                 {
+                    "_id": "test-alert-id",
                     "agentid": "test-agent-id",
+                    "created_date": "test-date",
                     "orgid": "test-org-id",
                     "name": "test-alert-name-4",
                     "emails": [
@@ -76,7 +84,9 @@ struct AlertDataFixture {
                     "valuetype": "number"
                 },
                 {
+                    "_id": "test-alert-id",
                     "agentid": "test-agent-id",
+                    "created_date": "test-date",
                     "orgid": "test-org-id",
                     "name": "test-alert-name-5",
                     "emails": [
@@ -88,7 +98,7 @@ struct AlertDataFixture {
                     "status": "test-status-5",
                     "level": "test-level-5",
                     "remenabled": true,
-                    "value": "2017-07-02T00:00:00Z",
+                    "value": "test-date-2",
                     "valuetype": "date"
                 }
             ]
