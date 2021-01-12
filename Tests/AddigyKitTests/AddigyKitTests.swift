@@ -451,6 +451,7 @@ final class AddigyKitTests: XCTestCase {
                     XCTAssertEqual(maintenance.count, 1)
                     
                     let maintenance = maintenance[0]
+                    XCTAssertEqual(maintenance.id, "test-maintenance-id")
                     XCTAssertEqual(maintenance.actionType, "test-action-type")
                     XCTAssertEqual(maintenance.agentId, "test-agent-id")
                     XCTAssertEqual(maintenance.exitCode, 0)

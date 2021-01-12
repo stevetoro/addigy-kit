@@ -11,6 +11,7 @@ public struct Maintenance: Decodable {
     public let actionType: String
     public let agentId: String
     public let exitCode: Int
+    public let id: String
     public let jobId: String
     public let jobTime: Int
     public let maxTryCount: Int
@@ -27,6 +28,7 @@ public struct Maintenance: Decodable {
         case actionType = "actiontype"
         case agentId = "agentid"
         case exitCode = "exitcode"
+        case id = "_id"
         case jobId = "jobid"
         case jobTime = "jobtime"
         case maxTryCount = "maxtrycount"
@@ -40,10 +42,11 @@ public struct Maintenance: Decodable {
         case type = "maintenancetype"
     }
     
-    public init(actionType: String, agentId: String, exitCode: Int, jobId: String, jobTime: Int, maxTryCount: Int, name: String, orgId: String, scheduledMaintenanceId: String, scheduledMaintenanceTime: String, shouldPromptUser: Bool, status: String, tryCount: Int, type: String) {
+    public init(actionType: String, agentId: String, exitCode: Int, id: String, jobId: String, jobTime: Int, maxTryCount: Int, name: String, orgId: String, scheduledMaintenanceId: String, scheduledMaintenanceTime: String, shouldPromptUser: Bool, status: String, tryCount: Int, type: String) {
         self.actionType = actionType
         self.agentId = agentId
         self.exitCode = exitCode
+        self.id = id
         self.jobId = jobId
         self.jobTime = jobTime
         self.maxTryCount = maxTryCount

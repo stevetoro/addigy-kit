@@ -12,6 +12,7 @@ struct MaintenanceDataFixture {
         """
             [
                 {
+                    "_id": "test-maintenance-id",
                     "actiontype": "test-action-type",
                     "agentid": "test-agent-id",
                     "exitcode": 0,
